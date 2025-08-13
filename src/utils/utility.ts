@@ -25,9 +25,11 @@ export const getFilterData = (filter: BlogFilter, filtered: any[]) => {
 
     // Created date exact match
     if (filter?.created_date) {
-        filtered = filtered.filter(b =>
-            b.created_date && b.created_date.includes(filter.created_date)
-        );
+        const crDate = parseDate(filter.created_date, true).toISOString().split('T')[0];
+        filtered = filtered.filter(b => {
+            const bDate = parseDate(b.created_date, true).toISOString().split('T')[0];
+            return bDate === crDate;
+        });
     }
 
     // Last updated date exact match
